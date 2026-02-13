@@ -27,7 +27,11 @@
             --border-light: #F0F0EB;
         }
 
-        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            font-size: 18px;
+        }
 
         body {
             font-family: var(--serif);
@@ -35,7 +39,7 @@
             background-image: radial-gradient(circle, rgba(27, 67, 50, 0.18) 1px, transparent 1px);
             background-size: 24px 24px;
             color: var(--text);
-            line-height: 1.7;
+            line-height: 1.78;
             overflow-x: hidden;
         }
 
@@ -56,7 +60,7 @@
             left: 0;
             right: 0;
             z-index: 100;
-            padding: 0 48px;
+            padding: 0 12px;
             height: 64px;
             display: flex;
             align-items: center;
@@ -156,13 +160,14 @@
 
         /* ─── LAYOUT ─── */
         .container {
-            max-width: 860px;
-            margin: 0 auto;
-            padding: 0 48px;
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            padding: 0 12px;
         }
 
         section {
-            padding: 80px 0;
+            padding: 96px 0;
         }
 
         .divider {
@@ -224,10 +229,10 @@
         }
         .hero-bio {
             font-family: var(--serif);
-            font-size: 1.15rem;
+            font-size: 1.28rem;
             color: var(--text-secondary);
-            line-height: 1.8;
-            max-width: 580px;
+            line-height: 1.9;
+            max-width: 100%;
             margin-bottom: 48px;
         }
         .hero-meta {
@@ -265,10 +270,10 @@
         /* ─── ABOUT ─── */
         .about-text {
             font-family: var(--serif);
-            font-size: 1.35rem;
-            line-height: 1.75;
+            font-size: 1.5rem;
+            line-height: 1.85;
             color: var(--text);
-            max-width: 680px;
+            max-width: 100%;
             font-weight: 400;
         }
         .about-text em {
@@ -331,9 +336,9 @@
         }
         .exp-content p {
             font-family: var(--serif);
-            font-size: 0.92rem;
+            font-size: 1rem;
             color: var(--text-secondary);
-            line-height: 1.75;
+            line-height: 1.85;
         }
 
         /* ─── ACADEMICS ─── */
@@ -368,9 +373,9 @@
         }
         .academic-content p {
             font-family: var(--serif);
-            font-size: 0.92rem;
+            font-size: 1rem;
             color: var(--text-secondary);
-            line-height: 1.75;
+            line-height: 1.85;
             margin-bottom: 14px;
         }
         .courses {
@@ -407,10 +412,10 @@
         }
         .project-item p {
             font-family: var(--serif);
-            font-size: 0.92rem;
+            font-size: 1rem;
             color: var(--text-secondary);
-            line-height: 1.75;
-            max-width: 600px;
+            line-height: 1.85;
+            max-width: 100%;
         }
 
         /* ─── INVOLVEMENT ─── */
@@ -442,10 +447,10 @@
         }
         .contact-text {
             font-family: var(--serif);
-            font-size: 1.15rem;
+            font-size: 1.28rem;
             color: var(--text-secondary);
-            line-height: 1.8;
-            max-width: 540px;
+            line-height: 1.9;
+            max-width: 100%;
             margin-bottom: 36px;
         }
         .contact-links {
@@ -554,12 +559,13 @@
 
         /* ─── RESPONSIVE ─── */
         @media (max-width: 768px) {
+            html { font-size: 16px; }
             .nav {
-                padding: 0 24px;
+                padding: 0 10px;
             }
             .nav-links { display: none; }
             .nav-mobile-btn { display: block; }
-            .container { padding: 0 24px; }
+            .container { padding: 0 10px; }
             section { padding: 56px 0; }
 
             .hero-inner {
@@ -589,8 +595,9 @@
         }
 
         @media (max-width: 480px) {
-            .nav { padding: 0 16px; }
-            .container { padding: 0 16px; }
+            html { font-size: 15.5px; }
+            .nav { padding: 0 8px; }
+            .container { padding: 0 8px; }
             .hero-text h1 { font-size: 1.85rem; }
             .hero-inner { padding: 60px 0 40px; }
             .hero-meta { flex-direction: column; gap: 16px; }
