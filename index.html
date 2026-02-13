@@ -280,6 +280,9 @@
             font-style: italic;
             color: var(--green-mid);
         }
+        .about-text + .about-text {
+            margin-top: 24px;
+        }
         .about-aside {
             margin-top: 40px;
             display: flex;
@@ -625,11 +628,11 @@
             <li><a href="#projects">Projects</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
-        <button class="nav-mobile-btn" id="menuBtn" aria-label="Open menu">Menu</button>
+        <button class="nav-mobile-btn" id="menuBtn" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">Menu</button>
     </nav>
 
     <div class="mobile-menu" id="mobileMenu">
-        <button class="mobile-menu-close" id="menuClose" aria-label="Close menu">Close</button>
+        <button class="mobile-menu-close" id="menuClose" type="button" aria-label="Close menu">Close</button>
         <a href="#about" class="mobile-link">About</a>
         <a href="#experience" class="mobile-link">Experience</a>
         <a href="#academics" class="mobile-link">Academics</a>
@@ -656,12 +659,12 @@
                             </div>
                             <div class="hero-meta-item">
                                 <span class="hero-meta-label">GitHub</span>
-                                <span class="hero-meta-value"><a href="https://github.com/sjr492" target="_blank">sjr492</a></span>
+                                <span class="hero-meta-value"><a href="https://github.com/sjr492" target="_blank" rel="noopener noreferrer">sjr492</a></span>
                             </div>
                         </div>
                     </div>
                     <div class="hero-photo">
-                        <img src="your-photo.jpg" alt="Sebastian Rivas">
+                        <img src="your-photo.jpg" alt="Sebastian Rivas" decoding="async">
                     </div>
                 </div>
             </div>
@@ -674,7 +677,7 @@
             <div class="container">
                 <div class="section-label reveal">About</div>
                 <p class="about-text reveal">Whenever I get a new device or install a new game, the first thing I do is open the settings. Tuning performance mods and shaders in Minecraft, or finding the right balance between visual fidelity and frame rate, is genuinely more enjoyable to me than playing the game itself. Technologies like NVIDIA's DLSS fascinate me because they represent the kind of work I want to be close to: making things faster and smarter without compromise.</p>
-                <p class="about-text reveal" style="margin-top: 24px;">That same instinct is shaping how I approach my studies. I've been learning SQL on my own time because I find the challenge of querying and structuring data efficiently to be genuinely fun. The more I learn about data science, the more I want to understand how to use data not just correctly, but optimally. I want to be at the cutting edge of technical advancement in performance, whether that means systems, data, or the tools that connect them.</p>
+                <p class="about-text reveal">That same instinct is shaping how I approach my studies. I've been learning SQL on my own time because I find the challenge of querying and structuring data efficiently to be genuinely fun. The more I learn about data science, the more I want to understand how to use data not just correctly, but optimally. I want to be at the cutting edge of technical advancement in performance, whether that means systems, data, or the tools that connect them.</p>
                 <div class="about-aside reveal">
                     <div class="about-aside-item">
                         <strong>Languages</strong>
@@ -812,10 +815,10 @@
                         sjr492@miami.edu <span class="arrow">→</span>
                         <span class="copied-toast">copied</span>
                     </a>
-                    <a href="https://www.linkedin.com/in/sebastianjrivas/" target="_blank" class="contact-link">
+                    <a href="https://www.linkedin.com/in/sebastianjrivas/" target="_blank" rel="noopener noreferrer" class="contact-link">
                         LinkedIn <span class="arrow">→</span>
                     </a>
-                    <a href="https://github.com/sjr492" target="_blank" class="contact-link">
+                    <a href="https://github.com/sjr492" target="_blank" rel="noopener noreferrer" class="contact-link">
                         GitHub <span class="arrow">→</span>
                     </a>
                 </div>
@@ -826,57 +829,120 @@
     <footer>
         <div class="container">
             <div class="footer-inner">
-                <p>&copy; 2025 Sebastian Rivas</p>
+                <p>&copy; <span id="footerYear">2025</span> Sebastian Rivas</p>
                 <p>University of Miami</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Nav scroll effect
-        const nav = document.getElementById('nav');
-        window.addEventListener('scroll', () => {
-            nav.classList.toggle('scrolled', window.scrollY > 40);
-        });
+        (() => {
+            const nav = document.getElementById('nav');
+            const menuBtn = document.getElementById('menuBtn');
+            const menuClose = document.getElementById('menuClose');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const footerYear = document.getElementById('footerYear');
 
-        // Mobile menu
-        const menuBtn = document.getElementById('menuBtn');
-        const menuClose = document.getElementById('menuClose');
-        const mobileMenu = document.getElementById('mobileMenu');
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-        const closeMenu = () => {
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
-        };
-        menuClose.addEventListener('click', closeMenu);
-        document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMenu));
+            if (footerYear) {
+                footerYear.textContent = String(new Date().getFullYear());
+            }
 
-        // Scroll reveal
-        const reveals = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, i) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => entry.target.classList.add('visible'), i * 60);
-                    observer.unobserve(entry.target);
+            if (nav) {
+                window.addEventListener('scroll', () => {
+                    nav.classList.toggle('scrolled', window.scrollY > 40);
+                });
+            }
+
+            const openMenu = () => {
+                if (!mobileMenu || !menuBtn) {
+                    return;
+                }
+
+                mobileMenu.classList.add('active');
+                menuBtn.setAttribute('aria-expanded', 'true');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeMenu = () => {
+                if (!mobileMenu || !menuBtn) {
+                    return;
+                }
+
+                mobileMenu.classList.remove('active');
+                menuBtn.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            };
+
+            if (menuBtn) {
+                menuBtn.addEventListener('click', openMenu);
+            }
+
+            if (menuClose) {
+                menuClose.addEventListener('click', closeMenu);
+            }
+
+            document.querySelectorAll('.mobile-link').forEach((link) => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeMenu();
                 }
             });
-        }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-        reveals.forEach(el => observer.observe(el));
 
-        // Click to copy email
-        document.querySelectorAll('.email-copy').forEach(el => {
-            el.addEventListener('click', function(e) {
-                e.preventDefault();
-                const email = this.dataset.email;
-                navigator.clipboard.writeText(email).then(() => {
-                    this.classList.add('show-toast');
-                    setTimeout(() => this.classList.remove('show-toast'), 2000);
+            const reveals = document.querySelectorAll('.reveal');
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry, index) => {
+                            if (entry.isIntersecting) {
+                                setTimeout(() => entry.target.classList.add('visible'), index * 60);
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    { threshold: 0.08, rootMargin: '0px 0px -30px 0px' }
+                );
+
+                reveals.forEach((element) => observer.observe(element));
+            } else {
+                reveals.forEach((element) => element.classList.add('visible'));
+            }
+
+            const copyToClipboard = async (text) => {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(text);
+                    return;
+                }
+
+                const input = document.createElement('input');
+                input.value = text;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                input.remove();
+            };
+
+            document.querySelectorAll('.email-copy').forEach((element) => {
+                element.addEventListener('click', async function (event) {
+                    event.preventDefault();
+
+                    const email = this.dataset.email;
+                    if (!email) {
+                        return;
+                    }
+
+                    try {
+                        await copyToClipboard(email);
+                        this.classList.add('show-toast');
+                        setTimeout(() => this.classList.remove('show-toast'), 2000);
+                    } catch (_error) {
+                        window.location.href = `mailto:${email}`;
+                    }
                 });
             });
-        });
+        })();
     </script>
 </body>
 </html>
