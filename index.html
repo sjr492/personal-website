@@ -554,39 +554,6 @@
             66% { transform: translate(-20px, 30px); }
         }
 
-        /* ─── MARGIN SHAPES ─── */
-        .margin-shapes {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 2;
-        }
-        .shape {
-            position: absolute;
-            width: var(--size);
-            height: var(--size);
-            opacity: 0.85;
-            will-change: transform;
-            transition: transform 7s ease-in-out;
-        }
-        .shape path,
-        .shape polygon,
-        .shape rect,
-        .shape circle {
-            fill: none;
-            stroke: var(--green-mid);
-            stroke-width: 12;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-        .shape-triangle { --size: 130px; }
-        .shape-square { --size: 120px; }
-        .shape-circle { --size: 118px; }
-
-        @media (max-width: 1024px) {
-            .margin-shapes { display: none; }
-        }
-
         /* ─── SCROLL REVEAL ─── */
         .reveal {
             opacity: 0;
@@ -655,17 +622,6 @@
 
     <div class="bg-glow" aria-hidden="true"></div>
     <div class="bg-glow-2" aria-hidden="true"></div>
-    <div class="margin-shapes" aria-hidden="true">
-        <svg class="shape shape-triangle" viewBox="0 0 100 100" role="presentation">
-            <polygon points="50,10 15,85 85,85"></polygon>
-        </svg>
-        <svg class="shape shape-square" viewBox="0 0 100 100" role="presentation">
-            <rect x="18" y="18" width="64" height="64" rx="4" ry="4"></rect>
-        </svg>
-        <svg class="shape shape-circle" viewBox="0 0 100 100" role="presentation">
-            <circle cx="50" cy="50" r="34"></circle>
-        </svg>
-    </div>
 
     <nav class="nav" id="nav">
         <a href="#" class="nav-name">Sebastian Rivas</a>
@@ -938,44 +894,6 @@
                 });
             });
         });
-
-        // Random margin shape motion
-        const marginShapes = Array.from(document.querySelectorAll('.shape'));
-        const leftSide = ['shape-triangle', 'shape-circle'];
-        const rightSide = ['shape-square'];
-        const marginInset = 18;
-
-        function getRandomY(maxY) {
-            return Math.random() * Math.max(40, maxY);
-        }
-
-        function placeShape(shape, sideClassList) {
-            const side = sideClassList.includes(shape.classList[1]) ? 'left' : 'right';
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            const size = shape.getBoundingClientRect().width;
-            const x = side === 'left'
-                ? marginInset
-                : Math.max(marginInset, width - size - marginInset);
-            const y = getRandomY(height - size - marginInset);
-            shape.style.transform = `translate(${x}px, ${y}px)`;
-        }
-
-        function moveShapes() {
-            marginShapes.forEach(shape => {
-                if (leftSide.includes(shape.classList[1])) {
-                    placeShape(shape, leftSide);
-                } else if (rightSide.includes(shape.classList[1])) {
-                    placeShape(shape, rightSide);
-                }
-            });
-        }
-
-        if (window.innerWidth > 1024) {
-            moveShapes();
-            setInterval(moveShapes, 7800);
-            window.addEventListener('resize', moveShapes);
-        }
     </script>
 </body>
 </html>
